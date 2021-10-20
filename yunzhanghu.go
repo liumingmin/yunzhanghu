@@ -22,6 +22,7 @@ type Yunzhanghu struct {
 	Dealer  string
 	Broker  string
 	ApiAddr string
+	WxAppID string // 商户微信 AppID
 
 	//白名单IP
 	//120.55.214.118 、 116.62.0.220 、 118.31.31.71 、 120.55.214.49 、 49.4.23.21 、 117.78.48.61 、

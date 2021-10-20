@@ -1,11 +1,5 @@
 package yunzhanghu
 
-const (
-	ORDER_CHANNEL_BANK   = "银行卡"
-	ORDER_CHANNEL_ALIPAY = "支付宝"
-	ORDER_CHANNEL_WEIXIN = "微信"
-)
-
 type Order struct {
 	OrderId             string            `json:"order_id"`
 	Pay                 float64           `json:"pay,string"`

@@ -9,6 +9,12 @@ import (
 )
 
 const (
+	ORDER_CHANNEL_BANK   = "银行卡"
+	ORDER_CHANNEL_ALIPAY = "支付宝"
+	ORDER_CHANNEL_WEIXIN = "微信"
+)
+
+const (
 	paymentOrderRealtimeURI = "/api/payment/v1/order-realtime"
 )
 
@@ -27,9 +33,9 @@ type (
 	}
 
 	OrderRealtimeData struct {
-		OrderId string  `json:"order_id"`
-		Ref     string  `json:"ref"`
-		Pay     float64 `json:"pay,string"`
+		OrderID string  `json:"order_id"`   // 商户订单号，原值返回
+		Ref     string  `json:"ref"`        // 综合服务平台流水号，唯一
+		Pay     float64 `json:"pay,string"` // 打款金额
 	}
 
 	retOrderRealtime struct {
@@ -86,9 +92,9 @@ type (
 	}
 
 	OrderAlipayData struct {
-		OrderId string  `json:"order_id"`
-		Ref     string  `json:"ref"`
-		Pay     float64 `json:"pay,string"`
+		OrderID string  `json:"order_id"`   // 商户订单号，原值返回
+		Ref     string  `json:"ref"`        // 综合服务平台流水号，唯一
+		Pay     float64 `json:"pay,string"` // 打款金额
 	}
 
 	retOrderAlipay struct {
@@ -123,6 +129,63 @@ func (y *Yunzhanghu) OrderAlipay(ctx context.Context, order AliPayOrderReq) (*Or
 		return nil, err
 	}
 	return &ret.Data, nil
+}
+
+const (
+	orderWxpayURI = "/api/payment/v1/order-wxpay"
+)
+
+type (
+	reqOrderWxpay struct {
+		OrderID   string  `json:"order_id"`   // 商户订单号，由商户保持唯⼀一性(必填)
+		DealerId  string  `json:"dealer_id"`  // 商户代码(必填)
+		BrokerId  string  `json:"broker_id"`  // 经纪公司(必填)
+		RealName  string  `json:"real_name"`  // 姓名(必填)
+		IDCard    string  `json:"id_card"`    // 身份证(必填)
+		Openid    string  `json:"openid"`     // wx2319u9jk231ad21
+		PhoneNo   string  `json:"phone_no"`   // 用户或联系⼈人⼿手机号
+		WxAppID   string  `json:"wx_app_id"`  // 商户微信 AppID
+		WxpayMode string  `json:"wxpay_mode"` // 微信打款模式
+		Pay       float64 `json:"pay,string"` // 金额
+		PayRemark string  `json:"pay_remark"` // 打款备注
+	}
+	OrderWxpayData struct {
+		OrderID string  `json:"order_id"`   // 商户订单号，原值返回
+		Ref     string  `json:"ref"`        // 综合服务平台流水号，唯一
+		Pay     float64 `json:"pay,string"` // 打款金额
+	}
+	retOrderWxpay struct {
+		CommonResponse
+		Data OrderWxpayData `json:"data"`
+	}
+)
+
+func (y *Yunzhanghu) OrderWxpay(ctx context.Context, order *WxPayOrderReq) (*OrderWxpayData, error) {
+	var (
+		input = &reqOrderWxpay{
+			OrderID:   order.OrderID,
+			DealerId:  y.Dealer,
+			BrokerId:  y.Broker,
+			RealName:  order.RealName,
+			IDCard:    order.IDCard,
+			Openid:    order.Openid,
+			PhoneNo:   order.PhoneNo,
+			WxAppID:   y.WxAppID,
+			WxpayMode: "transfer",
+			Pay:       order.Pay,
+			PayRemark: order.PayRemark,
+		}
+		output  = new(retOrderWxpay)
+		apiName = "微信实时下单"
+	)
+	responseBytes, err := y.getJson(ctx, orderWxpayURI, apiName, input)
+	if err != nil {
+		return nil, err
+	}
+	if err = y.decodeWithError(responseBytes, output, apiName); err != nil {
+		return nil, err
+	}
+	return &output.Data, nil
 }
 
 const (
