@@ -194,7 +194,7 @@ func (y *Yunzhanghu) UserWhiteCheck(ctx context.Context, req *ReqUserWhiteCheck)
 
 /* 银行卡信息查询接口 */
 
-const BankCardQueryURI = ""
+const BankCardQueryURI = "/api/payment/v1/card"
 
 type (
 	ReqBankCardQuery struct {

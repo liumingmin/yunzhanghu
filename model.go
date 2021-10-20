@@ -6,21 +6,21 @@ type Page struct {
 }
 
 type BankCardOrderReq struct {
-	OrderId   string
-	RealName  string
-	IdCard    string
-	CardNo    string
-	PhoneNo   string
-	Pay       float64
-	PayRemark string
+	OrderId   string  //订单ID
+	RealName  string  //姓名
+	IdCard    string  //身份证号
+	CardNo    string  //银行卡号
+	PhoneNo   string  //手机号
+	Pay       float64 //付款金额
+	PayRemark string  //备注
 }
 
 type AliPayOrderReq struct {
-	OrderId   string
-	RealName  string
-	IdCard    string
-	CardNo    string
-	PhoneNo   string
-	Pay       float64
-	PayRemark string
+	OrderId   string  //订单ID
+	RealName  string  //姓名
+	IdCard    string  //身份证号
+	CardNo    string  //银行卡号
+	PhoneNo   string  //手机号
+	Pay       float64 //付款金额
+	PayRemark string  //备注
 }
