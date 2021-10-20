@@ -12,6 +12,10 @@ const (
 	ORDER_CHANNEL_BANK   = "银行卡"
 	ORDER_CHANNEL_ALIPAY = "支付宝"
 	ORDER_CHANNEL_WEIXIN = "微信"
+
+	WITHDRAW_PLATFORM_BANKPAY = "bankpay"
+	WITHDRAW_PLATFORM_ALIPAY  = "alipay"
+	WITHDRAW_PLATFORM_WXPAY   = "wxpay"
 )
 
 const (
