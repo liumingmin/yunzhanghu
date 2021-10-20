@@ -1,4 +1,4 @@
-module github.com/kaiiak/yunzhanghu
+module github.com/liumingmin/yunzhanghu
 
 go 1.16
 
